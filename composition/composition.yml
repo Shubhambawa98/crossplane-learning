@@ -1,0 +1,56 @@
+
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: mycomposition
+spec:
+  compositeTypeRef:
+    apiVersion: example.org/v1alpha1
+    kind: XmyVpc
+  resources:
+    - base:
+        apiVersion: ec2.aws.upbound.io/v1beta1
+        kind: VPC
+        metadata:
+          annotations:
+          meta.upbound.io/example-id: ec2/v1beta1/securitygrouprule
+        name: sample-vpc
+        spec:
+          forProvider:
+            cidrBlock: 172.16.0.0/16
+            region: us-west-2
+            tags:
+              Name: DemoVpc
+          providerConfigRef:
+            name: default
+    - base:
+        apiVersion: ec2.aws.upbound.io/v1beta1
+        kind: Subnet
+        metadata:
+          annotations:
+            meta.upbound.io/example-id: ec2/v1beta1/transitgatewayconnect
+          name: sample-subnet01
+        spec:
+          forProvider:
+            tags:
+              Name: DemoSubnet
+            availabilityZone: us-west-2a
+            cidrBlock: 172.16.10.0/24
+            region: us-west-2
+            vpcIdRef:
+              name: sample-vpc
+    - base:
+        apiVersion: ec2.aws.upbound.io/v1beta1
+        kind: VPC
+        metadata:
+          annotations:
+            meta.upbound.io/example-id: ec2/v1beta1/securitygrouprule
+          name: sample-vpc
+        spec:
+          forProvider:
+            cidrBlock: 172.16.0.0/16
+            region: us-west-2
+            tags:
+              Name: DemoVpc
+          providerConfigRef:
+            name: default
