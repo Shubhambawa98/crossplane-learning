@@ -1,0 +1,33 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xmyvpc.example.org
+  namespace: crossplane-system
+spec:
+  group: example.org
+  names:
+    kind: XmyVpc
+    plural: xmyvpc
+  claimNames:
+    kind: Mys3resource
+    plural: mys3resource
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  region:
+                    type: string
+                required:
+                - region
+            required:
+            - parameters

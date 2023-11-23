@@ -1,0 +1,8 @@
+apiVersion: example.org/v1alpha1
+kind: Mys3resource
+metadata:
+  name: bukect-lkm
+  namespace: crossplane-system
+spec:
+  parameters:
+    region: us-west-2
